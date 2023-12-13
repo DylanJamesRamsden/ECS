@@ -21,10 +21,16 @@ public partial class MovingSystemBase : SystemBase
        }*/
        // SystemAPI.Query<> can have multiple templates just seperated with a ,. But then also the foreach variables must
        // also have multiple, one for each query type
+       // e.g. ((MovementAspect movementAspect, LocalTransform transform) in SystemAPI.Query<MovementAspect, LocalTransform>())
        // Simplified with an aspect
        foreach (MovementAspect movementAspect in SystemAPI.Query<MovementAspect>())
        {
-           movementAspect.Move(SystemAPI.Time.DeltaTime);
+           movementAspect.Move(SystemAPI.Time.DeltaTime, SystemAPI.GetSingletonRW<RandomComponent>());
+           
+           // Need RefRW on random component to get a direct reference rather than a copy, if we have a value that never changes we can just get
+           // the type rather than RefRW
+           // SystemAPI.GetSingleton<> just gets a copy of the singleton
+           // SystemAPI. GetSingletonRW<> gets an actual reference
        }
        
        // Old way to run through all entities
