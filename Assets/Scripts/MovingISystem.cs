@@ -34,6 +34,7 @@ public partial struct MovingISystem : ISystem
         // Schedule: Runs the code on a single worker thread
         // ScheduleParrallel: Runs the code on multiple worker threads
         
+        // Ensures that all entity MoveJob's have been completed before running the TestReachedTargetPosition job's on them
         jobHandle.Complete();
         
         RefRW<RandomComponent> newRandomComponent = SystemAPI.GetSingletonRW<RandomComponent>();
