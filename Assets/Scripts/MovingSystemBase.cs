@@ -25,11 +25,12 @@ public partial class MovingSystemBase : SystemBase
        // Simplified with an aspect
        foreach (MovementAspect movementAspect in SystemAPI.Query<MovementAspect>())
        {
-           movementAspect.Move(SystemAPI.Time.DeltaTime, SystemAPI.GetSingletonRW<RandomComponent>());
+           movementAspect.Move(SystemAPI.Time.DeltaTime);
+           movementAspect.TestReachedTargetPosition(SystemAPI.GetSingletonRW<RandomComponent>());
            
            // Need RefRW on random component to get a direct reference rather than a copy, if we have a value that never changes we can just get
            // the type rather than RefRW
-           // SystemAPI.GetSingleton<> just gets a copy of the singleton
+           // SystemAPI.GetSingleton<> just gets a copy of the singleton, so original value of a property will never change
            // SystemAPI. GetSingletonRW<> gets an actual reference
        }
        
@@ -39,8 +40,8 @@ public partial class MovingSystemBase : SystemBase
        {
            transform.ValueRW.Position += new float3(SystemAPI.Time.DeltaTime, 0, 0);
        }).Run();*/
-        // Run: Runs the code on the main thread
-        // Schedule: Runs the code on a single worker thread
-        // ScheduleParrallel: Runs the code on multiple worker threads
+       // Run: Runs the code on the main thread
+       // Schedule: Runs the code on a single worker thread
+       // ScheduleParrallel: Runs the code on multiple worker threads
     }
 }
