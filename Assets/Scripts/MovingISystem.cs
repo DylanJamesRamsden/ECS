@@ -1,3 +1,4 @@
+using Unity.Burst;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using Unity.Jobs;
@@ -5,22 +6,25 @@ using Unity.Mathematics;
 using Random = UnityEngine.Random;
 
 // Because ISystem is an unmanaged system it needs to be a struct and not a class
+[BurstCompile]
 public partial struct MovingISystem : ISystem
 {
-    
     // Would be nice if ISystem had empty implementations of OnCreate and OnDestroy so we don't need to implement them ourselves
     // if we want something simple
     
+    [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
         
     }
     
+    [BurstCompile]
     public void OnDestroy(ref SystemState state)
     {
         
     }
     
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         // Refer to MovingSystemBase for more info/comments
@@ -41,8 +45,10 @@ public partial struct MovingISystem : ISystem
         new TestReachedTargetPositionJob { randomComponent = newRandomComponent }.Run();
     }
 }
+
 // IJobChunk : If we want to iterate over multiple chunks
 // IJobEntity : If we want to iterate over multiple entities
+[BurstCompile]
 public partial struct MoveJob : IJobEntity
 {
     public float deltaTime;
@@ -53,6 +59,7 @@ public partial struct MoveJob : IJobEntity
     }
 }
 
+[BurstCompile]
 public partial struct TestReachedTargetPositionJob : IJobEntity
 {
     // [NativeDisableUnsafePtrRestriction] Only use if you know that the Ptr you are using is safe!!!

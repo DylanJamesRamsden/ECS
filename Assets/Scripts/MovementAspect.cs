@@ -36,7 +36,7 @@ namespace Unity.Entities
         {
             // Cannot use Random.Range (will break when we use Burst)
         
-            return new float3(randomComponent.ValueRW.random.NextFloat(0, 15.0f), 0.0f, randomComponent.ValueRW.random.NextFloat(0, 15.0f));
+            return new float3(randomComponent.ValueRW.random.NextFloat(-20.0f, 20.0f), 0.0f, randomComponent.ValueRW.random.NextFloat(-20.0f, 20.0f));
         }
     }
 }
